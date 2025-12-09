@@ -1,0 +1,176 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #008000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2, h3 {
+    color: #005f00;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+
+/* Dados do Participante */
+.dados-participante p {
+    margin: 8px 0;
+    font-size: 1.1em;
+}
+
+#copiar-pix-btn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Jogos de Revisão */
+#container-jogos-revisao {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.jogo-revisao-item {
+    padding: 10px;
+    background-color: #e6ffe6;
+    border: 1px solid #c8e6c9;
+    border-radius: 4px;
+}
+
+.jogo-revisao-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #388e3c;
+}
+
+.numeros-revisao {
+    font-size: 1.2em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Atenção Final */
+.aviso-atencao {
+    background-color: #fff3cd; /* Amarelo claro */
+    border-left: 5px solid #ffc107; /* Amarelo escuro */
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+}
+
+.form-group-checkbox {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Controles */
+.controles-confirmacao {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.controles-confirmacao button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#confirmar-aposta-btn {
+    background-color: #ff9800; /* Laranja */
+    color: white;
+}
+
+#confirmar-aposta-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#confirmar-aposta-btn:not(:disabled):hover {
+    background-color: #e68900;
+}
+
+.btn-secundario {
+    background-color: #6c757d; /* Cinza */
+    color: white;
+}
+
+.btn-secundario:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos da Chave PIX (Replicados do home.css) */
+.pix-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    margin-top: 5px; /* Adiciona um pequeno espaço acima */
+}
+
+#display-pix {
+    flex-grow: 1;
+    font-family: monospace;
+    font-weight: bold;
+    color: #000;
+    overflow-wrap: break-word; /* Garante que a chave longa se ajuste */
+}
+
+/* Modificação no botão Copiar PIX para se adequar ao novo layout */
+#copiar-pix-btn {
+    padding: 8px 15px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 0; /* Remove a margem extra que existia antes */
+    font-size: 0.9em;
+}
+
+#copiar-pix-btn:hover {
+    background-color: #004494;
+}
+
+/* Garante que o display de Nome e Telefone não seja afetado */
+.dados-participante p {
+    margin: 15px 0; /* Aumenta um pouco o espaço entre Nome/Telefone e o PIX */
+    font-size: 1.1em;
+}

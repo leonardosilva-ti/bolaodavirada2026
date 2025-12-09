@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação da Aposta - Mega da Virada</title>
+    <link rel="stylesheet" href="CSS/confirmacao.css">
+</head>
+<body>
+    <header>
+        <h1>✅ Confirme Sua Participação</h1>
+        <p>Revise os dados da sua aposta e confirme para gerar seu protocolo.</p>
+    </header>
+
+    <main>
+		<section id="revisao-dados">
+			<h2>Detalhes da Sua Aposta</h2>
+    
+			<div class="dados-participante">
+				<p><strong>Nome:</strong> <span id="display-nome"></span></p>
+				<p><strong>Telefone:</strong> <span id="display-telefone"></span></p>
+        
+				<p><strong>Chave PIX:</strong></p> 
+				<div class="pix-info">
+					<span id="display-pix"></span> 
+					<button id="copiar-pix-btn">Copiar Chave</button>
+				</div>
+				</div>
+
+			<h3>Seus Jogos Selecionados (5x6)</h3>
+			<div id="container-jogos-revisao">
+				</div>
+		</section>
+
+        <hr>
+
+        <section id="confirmacao-final">
+            <h2>⚠️ Atenção Importante</h2>
+            <div class="aviso-atencao">
+                <p>Ao confirmar a aposta, você garante a reserva dos seus jogos. O protocolo será gerado, mas sua participação só será <b>confirmada como PAGA</b> após o envio do comprovante PIX e a verificação pelo administrador.</p>
+                <p>Certifique-se de que os números de telefone e jogos estão corretos, pois <b>não poderão ser alterados</b> após a confirmação.</p>
+            </div>
+            
+            <form id="form-confirmacao">
+                <div class="form-group-checkbox">
+                    <input type="checkbox" id="confirma-leitura" required>
+                    <label for="confirma-leitura">Confirmo que li a mensagem de atenção e que todos os dados acima estão corretos.</label>
+                </div>
+
+                <div class="controles-confirmacao">
+                    <button type="button" id="voltar-btn" class="btn-secundario">← Voltar</button>
+                    <button type="submit" id="confirmar-aposta-btn" disabled>Confirmar e Gerar Protocolo</button>
+                </div>
+                <p id="mensagem-status" style="margin-top: 15px; font-weight: bold;"></p>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Bolão Mega da Virada 2026</p>
+    </footer>
+
+    <script src="JS/confirmacao.js"></script>
+</body>
+</html>

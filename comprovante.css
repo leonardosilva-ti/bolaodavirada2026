@@ -1,0 +1,181 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #008000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    max-width: 750px;
+    margin: 20px auto;
+    padding: 25px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h1, h2, h3 {
+    color: #005f00;
+}
+
+/* Blocos de Informação */
+.info-bloco {
+    padding: 10px 0;
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 15px;
+}
+
+.protocolo-bloco {
+    background-color: #e6ffe6;
+    padding: 15px;
+    border: 1px solid #c8e6c9;
+    border-radius: 5px;
+}
+
+#display-protocolo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #cc0000; /* Vermelho para destaque */
+}
+
+/* Estilo PIX (Consistente com Home e Confirmação) */
+.pix-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-top: 5px;
+}
+
+#copiar-pix-btn {
+    padding: 8px 15px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+#copiar-pix-btn:hover {
+    background-color: #004494;
+}
+
+/* Status de Pagamento */
+.status-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+#display-status {
+    display: block;
+    font-size: 1.8em;
+    font-weight: bold;
+    padding: 10px 0;
+    border-radius: 5px;
+    transition: background-color 0.5s;
+}
+
+#display-status[data-status="AGUARDANDO"] {
+    background-color: #ffc107; /* Amarelo */
+    color: #333;
+}
+
+#display-status[data-status="PAGO"] {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+#data-pago-info {
+    font-size: 0.9em;
+    margin-top: 10px;
+    color: #666;
+}
+
+.controles-status {
+    margin-top: 15px;
+}
+
+#atualizar-status-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#mensagem-status {
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+/* Jogos Selecionados */
+#container-jogos-comprovante {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.jogo-comprovante-item {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.jogo-comprovante-item strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.numeros-comprovante {
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #005f00;
+}
+
+/* Controles Finais (PDF e Consulta) */
+#controles-finais {
+    text-align: center;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+#gerar-pdf-btn {
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.btn-consulta {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #6c757d; /* Cinza */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-left: 10px;
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprovante de Aposta - Mega da Virada</title>
+    <link rel="stylesheet" href="CSS/comprovante.css">
+</head>
+<body>
+    <header>
+        <h1>📄 Comprovante de Participação</h1>
+        <p>Guarde este comprovante e protocolo para consulta.</p>
+    </header>
+
+    <main id="comprovante-content">
+        <section id="detalhes-aposta">
+            <h2>Dados da Aposta</h2>
+            
+            <div class="info-bloco protocolo-bloco">
+                <p><strong>Protocolo:</strong> <span id="display-protocolo">--</span></p>
+                <p><strong>Data/Hora da Aposta:</strong> <span id="display-data-hora">--</span></p>
+            </div>
+            
+            <div class="info-bloco">
+                <p><strong>Nome:</strong> <span id="display-nome">--</span></p>
+                <p><strong>Telefone:</strong> <span id="display-telefone">--</span></p>
+            </div>
+
+            <div class="info-bloco pix-info-comprovante">
+                <p><strong>Chave PIX:</strong></p>
+                <div class="pix-info"> 
+                    <span id="display-pix">88f77025-40bc-4364-9b64-02ad88443cc4</span> 
+                    <button id="copiar-pix-btn">Copiar Chave</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="status-pagamento">
+            <h2>Status de Pagamento</h2>
+            <div class="status-box">
+                <span id="display-status" data-status="AGUARDANDO">AGUARDANDO PAGAMENTO</span>
+                <p id="data-pago-info" style="display: none;">Pago em: <span id="display-data-pago"></span></p>
+                
+                <div class="controles-status">
+                    <button id="atualizar-status-btn">Atualizar Status</button>
+                    <p id="mensagem-status"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="jogos-selecionados">
+            <h2>Jogos Selecionados</h2>
+            <div id="container-jogos-comprovante">
+                </div>
+        </section>
+    </main>
+    
+    <div id="controles-finais">
+        <button id="gerar-pdf-btn">⬇️ Gerar Comprovante (PDF)</button>
+        <a href="consulta.html" class="btn-consulta">Ir para Consulta de Jogos</a>
+    </div>
+
+    <footer>
+        <p>&copy; Bolão Mega da Virada 2026</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="JS/comprovante.js"></script>
+</body>
+</html>

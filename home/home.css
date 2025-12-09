@@ -1,0 +1,171 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #008000; /* Verde da Mega Sena */
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Formulário de Contato */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* PIX */
+.pix-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+
+#chave-pix-display {
+    flex-grow: 1;
+    font-family: monospace;
+    font-weight: bold;
+    color: #000;
+    overflow-wrap: break-word; /* Garante que a chave longa se ajuste */
+}
+
+#copiar-pix-btn {
+    padding: 8px 15px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#copiar-pix-btn:hover {
+    background-color: #004494;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 30px 0;
+}
+
+/* Seleção de Jogos (Números) */
+#container-jogos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+    border: 1px dashed #008000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.numero-btn {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid #008000;
+    background-color: #fff;
+    color: #008000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    user-select: none;
+}
+
+.numero-btn.selecionado {
+    background-color: #008000;
+    color: white;
+    border-color: #005f00;
+}
+
+.numero-btn:hover:not(.selecionado) {
+    background-color: #e6ffe6;
+}
+
+/* Controles */
+.controles-selecao {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.controles-selecao p {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#finalizar-aposta-btn, #limpar-selecao-btn {
+    padding: 12px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#finalizar-aposta-btn {
+    background-color: #ff9800; /* Laranja para destaque */
+    color: white;
+}
+
+#finalizar-aposta-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#finalizar-aposta-btn:not(:disabled):hover {
+    background-color: #e68900;
+}
+
+#limpar-selecao-btn {
+    background-color: #f44336; /* Vermelho */
+    color: white;
+}
+
+#limpar-selecao-btn:hover {
+    background-color: #d32f2f;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #777;
+}

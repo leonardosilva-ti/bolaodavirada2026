@@ -1,5 +1,5 @@
 // URLs Fictícias. Estes serão substituídos pelo URL de Implantação do seu Apps Script.
-const APPS_SCRIPT_URL_CONFIRMACAO = 'https://script.google.com/macros/s/AKfycbyubHYU_2o26KHTRtH558L1eU4wXYZ5rGKi3ghwEJ9_xW95zh76lnkN3kKB5nuo0QjnJA';
+const APPS_SCRIPT_URL_CONFIRMACAO = 'https://script.google.com/macros/s/AKfycbyubHYU_2o26KHTRtH558L1eU4wXYZ5rGKi3ghwEJ9_xW95zh76lnkN3kKB5nuo0QjnJA/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
     const dadosApostaJSON = localStorage.getItem('dadosBolao');
@@ -94,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 jogos: JSON.stringify(dadosAposta.jogos) 
             };
             
-            // CONVERTE DADOS PARA PARÂMETROS DE URL (QUERY STRING)
+            // CONVERTE DADOS PARA PARÂMETROS DE  (QUERY STRING)
             const params = new URLSearchParams(dadosParaEnvio).toString();
             // MONTA A URL COMPLETA COM OS PARÂMETROS
-            const urlCompleta = `${APPS_SCRIPT_URL_CONFIRMACAO}?${params}`;
+            const urlCompleta = `${APPS_SCRIPT_URL_CONFIRMACAO}?${params}&output=json`;
 
 
             // Requisição GET para o Apps Script
@@ -146,4 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     carregarDados();
 });
+
 

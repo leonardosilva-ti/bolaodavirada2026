@@ -102,9 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Requisição GET para o Apps Script
             const response = await fetch(urlCompleta, {
-                method: 'GET', // MUDANÇA: Alterado de POST para GET para contornar o CORS do Apps Script
-                mode: 'cors',
-                // Removido headers e body, pois os dados são enviados na URL (query string)
+                method: 'GET',
+                mode: 'no-cors', // MUDANÇA: Força o modo no-cors
             });
 
             // Se o status HTTP não for 200, ainda pode indicar um problema na requisição
@@ -146,5 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     carregarDados();
 });
+
 
 

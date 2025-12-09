@@ -1,5 +1,5 @@
 // URLs Fictícias. Estes serão substituídos pelo URL de Implantação do seu Apps Script.
-const APPS_SCRIPT_URL_CONFIRMACAO = 'https://script.google.com/macros/s/AKfycbyubHYU_2o26KHTRtH558L1eU4wXYZ5rGKi3ghwEJ9_xW95zh76lnkN3kKB5nuo0QjnJA/exec';
+const APPS_SCRIPT_URL_CONFIRMACAO = 'https://script.google.com/macros/s/AKfycbyubHYU_2o26KHTRtH558L1eU4wXYZ5rGKi3ghwEJ9_xW95zh76lnkN3kKB5nuo0QjnJA';
 
 document.addEventListener('DOMContentLoaded', () => {
     const dadosApostaJSON = localStorage.getItem('dadosBolao');
@@ -146,3 +146,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     carregarDados();
 });
+

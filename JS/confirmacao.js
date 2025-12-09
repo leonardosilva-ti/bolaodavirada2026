@@ -96,14 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // CONVERTE DADOS PARA PARÂMETROS DE  (QUERY STRING)
             const params = new URLSearchParams(dadosParaEnvio).toString();
-            // MONTA A URL COMPLETA COM OS PARÂMETROS
-            const urlCompleta = `${APPS_SCRIPT_URL_CONFIRMACAO}?${params}&output=json`;
+            const urlCompleta = `${APPS_SCRIPT_URL_CONFIRMACAO}?${params}&output=json`; // <-- Adição de &output=json
 
 
             // Requisição GET para o Apps Script
             const response = await fetch(urlCompleta, {
                 method: 'GET',
-                mode: 'no-cors', // MUDANÇA: Força o modo no-cors
+                mode: 'cors', // Devemos tentar manter 'cors'
             });
 
             // Se o status HTTP não for 200, ainda pode indicar um problema na requisição
@@ -145,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     carregarDados();
 });
+
 
 
 

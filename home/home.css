@@ -22,6 +22,40 @@ main {
     border-radius: 8px;
 }
 
+#info-bolao {
+    background-color: #e8f5e9; /* Fundo verde claro para destaque */
+    border-left: 5px solid #008000; /* Borda verde */
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+#info-bolao h3 {
+    margin-top: 0;
+    color: #005f00;
+    font-size: 1.3em;
+}
+
+#info-bolao p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.aviso-particular {
+    font-weight: bold;
+    color: #d32f2f; /* Vermelho para chamar atenção no aviso */
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.separator-info-form {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
 /* Formulário de Contato */
 .form-group {
     margin-bottom: 15px;
@@ -168,4 +202,202 @@ footer {
     margin-top: 20px;
     font-size: 0.9em;
     color: #777;
+}
+
+/* ... (Estilos anteriores) ... */
+
+/* ESTILOS DA SELEÇÃO DE JOGOS POR DISPLAY */
+#container-displays-jogos {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.jogo-display {
+    flex: 1;
+    padding: 10px 5px;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s;
+    font-size: 0.9em;
+    border: 1px solid transparent;
+}
+
+/* Status: Vazio (Cinza) */
+.jogo-display[data-status="vazio"] {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+/* Status: Incompleto (Amarelo) */
+.jogo-display[data-status="incompleto"] {
+    background-color: #fff9c4;
+    color: #fbc02d;
+}
+
+/* Status: Completo (Verde) */
+.jogo-display[data-status="completo"] {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+/* Jogo Ativo (Destaque) */
+.jogo-display.ativo {
+    border: 2px solid #ff9800; /* Borda Laranja para o jogo em edição */
+    box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+    transform: scale(1.02);
+}
+
+.numeros-selecionados-display {
+    display: block;
+    font-weight: normal;
+    font-size: 0.8em;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Controles */
+.controles-jogo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.controles-jogo button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#limpar-jogo-btn {
+    background-color: #f44336; /* Vermelho */
+    color: white;
+}
+#limpar-jogo-btn:hover {
+    background-color: #d32f2f;
+}
+
+#preencher-aleatoriamente-btn {
+    background-color: #2196f3; /* Azul */
+    color: white;
+}
+#preencher-aleatoriamente-btn:hover {
+    background-color: #1976d2;
+}
+
+#proximo-jogo-btn {
+    background-color: #4caf50; /* Verde */
+    color: white;
+}
+#proximo-jogo-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#confirmar-aposta-btn {
+    background-color: #ff9800; /* Laranja (substitui o botão anterior) */
+    color: white;
+    font-weight: bold;
+}
+#confirmar-aposta-btn:hover {
+    background-color: #e68900;
+}
+
+/* Estilos dos Números (Manter) */
+#container-jogos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+    border: 1px dashed #008000;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* A classe 'selecionado' deve indicar que o número foi escolhido em QUALQUER jogo */
+.numero-btn.selecionado {
+    background-color: #008000;
+    color: white;
+    border-color: #005f00;
+}
+
+/* ... (Estilos anteriores) ... */
+
+/* Estilos para Contato Dúvidas (Novo) */
+#contato-duvidas {
+    text-align: center;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px dashed #28a745; /* Verde do WhatsApp */
+    border-radius: 5px;
+}
+
+#contato-duvidas p {
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.whatsapp-link-final {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745; /* Cor do WhatsApp */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+}
+
+.whatsapp-link-final:hover {
+    background-color: #1e7e34;
+}
+
+/* Estilos para Acessos Rápidos (Novo) */
+#acessos-rapidos {
+    text-align: center;
+    margin: 30px auto;
+    max-width: 800px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-acesso {
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+    flex-grow: 1;
+    max-width: 250px;
+}
+
+.btn-acesso:hover {
+    opacity: 0.9;
+}
+
+/* Estilo específico para Consulta */
+.btn-acesso:not(.admin-btn) {
+    background-color: #007bff; /* Azul */
+    color: white;
+}
+
+/* Estilo específico para Admin */
+.admin-btn {
+    background-color: #6c757d; /* Cinza */
+    color: white;
 }

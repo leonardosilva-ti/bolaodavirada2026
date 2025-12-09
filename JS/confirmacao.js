@@ -47,6 +47,35 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'index.html';
         }
     }
+    
+    // Funçao para gerar protocolo (replicada do GS)
+    function gerarProtocoloUnico() {
+        const date = new Date();
+        const pad2 = (n) => n.toString().padStart(2, '0');
+
+        const ano = date.getFullYear();
+        const mes = pad2(date.getMonth() + 1);
+        const dia = pad2(date.getDate());
+        const hora = pad2(date.getHours());
+        const minuto = pad2(date.getMinutes());
+        const segundo = pad2(date.getSeconds());
+        
+        const timestampPart = `${ano}${mes}${dia}${hora}${minuto}${segundo}`;
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        
+        const char1 = chars.charAt(Math.floor(Math.random() * chars.length));
+        const char2 = chars.charAt(Math.floor(Math.random() * chars.length));
+        const num1 = nums.charAt(Math.floor(Math.random() * 10));
+        const num2 = nums.charAt(Math.floor(Math.random() * 10));
+        const char3 = chars.charAt(Math.floor(Math.random() * chars.length));
+        const num3 = nums.charAt(Math.floor(Math.random() * 10));
+        
+        const codePart = `${char1}${char2}${num1}${num2}${char3}${num3}`;
+
+        return `${timestampPart}-${codePart}`; 
+    }
 
     // 2. Eventos e Controles
     
@@ -61,16 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Botão Copiar PIX
-    if (copiarPixBtn && dadosAposta) {
+    if (copiarPixBtn) {
         copiarPixBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(dadosAposta.chavePix).then(() => {
-                copiarPixBtn.textContent = 'Copiado!';
-                setTimeout(() => { copiarPixBtn.textContent = 'Copiar Chave'; }, 1500);
-            });
+            if (dadosAposta && dadosAposta.chavePix) {
+                navigator.clipboard.writeText(dadosAposta.chavePix).then(() => {
+                    copiarPixBtn.textContent = 'Copiado!';
+                    setTimeout(() => { copiarPixBtn.textContent = 'Copiar Chave'; }, 1500);
+                });
+            }
         });
     }
 
-    // 3. Submissão do Formulário para Apps Script
+    // 3. Submissão do Formulário para Apps Script (USANDO POST)
     formConfirmacao.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -90,28 +121,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 action: 'confirmarAposta', // Ação que o Apps Script vai processar
                 nome: dadosAposta.nome,
                 telefone: dadosAposta.telefone,
-                // Serializa os jogos para uma string, facilitando o envio HTTP
-                jogos: JSON.stringify(dadosAposta.jogos) 
+                // Serializa os jogos para uma string
+                jogos: JSON.stringify(dadosAposta.jogos)  
             };
             
-            // CONVERTE DADOS PARA PARÂMETROS DE  (QUERY STRING)
-            const params = new URLSearchParams(dadosParaEnvio).toString();
-            const urlCompleta = `${APPS_SCRIPT_URL_CONFIRMACAO}?${params}&output=json`; // <-- Adição de &output=json
-
-
-            // Requisição GET para o Apps Script
-            const response = await fetch(urlCompleta, {
-                method: 'GET',
-                mode: 'cors', // Devemos tentar manter 'cors'
+            // ********* MUDANÇA: USANDO FormData para POST *********
+            const formData = new FormData();
+            for (const key in dadosParaEnvio) {
+                formData.append(key, dadosParaEnvio[key]);
+            }
+            
+            // Requisição POST para o Apps Script
+            const response = await fetch(APPS_SCRIPT_URL_CONFIRMACAO, {
+                method: 'POST', // Agora é POST
+                body: formData, // Envia o formulário no corpo da requisição
+                mode: 'cors', 
             });
 
             // Se o status HTTP não for 200, ainda pode indicar um problema na requisição
-            // O Apps Script retorna 200 mesmo em caso de erro CORS, mas o fetch falha antes de ler.
-            // Mantemos a verificação para erros gerais de rede.
             if (!response.ok) {
-                throw new Error(`Erro de rede: ${response.statusText}`);
+                throw new Error(`Erro de rede: ${response.statusText}. Verifique a implantação do Apps Script.`);
             }
 
+            // O Apps Script deve retornar um JSON válido
             const result = await response.json();
             
             if (result.status === 'SUCCESS') {
@@ -144,7 +176,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     carregarDados();
 });
-
-
-
-

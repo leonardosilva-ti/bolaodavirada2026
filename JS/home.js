@@ -1,119 +1,260 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Referências do DOM
     const containerJogos = document.getElementById('container-jogos');
-    const contadorNumeros = document.getElementById('contador-numeros');
-    const finalizarApostaBtn = document.getElementById('finalizar-aposta-btn');
-    const limparSelecaoBtn = document.getElementById('limpar-selecao-btn');
+    const displaysJogos = document.querySelectorAll('.jogo-display');
+    const limparJogoBtn = document.getElementById('limpar-jogo-btn');
+    const preencherAleatoriamenteBtn = document.getElementById('preencher-aleatoriamente-btn');
+    const proximoJogoBtn = document.getElementById('proximo-jogo-btn');
+    const confirmarApostaBtn = document.getElementById('confirmar-aposta-btn');
+    // const contadorTotalSpan = document.getElementById('contador-total'); // REMOVIDO
     const copiarPixBtn = document.getElementById('copiar-pix-btn');
     const chavePixDisplay = document.getElementById('chave-pix-display');
-    const maxNumeros = 30; // 5 jogos * 6 números
+    
+    // Constantes e Variáveis de Estado
+    const CHAVE_PIX_SIMULADA = "88f77025-40bc-4364-9b64-02ad88443cc4"; // CHAVE PIX ATUALIZADA
+    const MAX_NUMEROS_JOGO = 6;
+    const TOTAL_JOGOS = 5;
 
-    let numerosSelecionados = new Set();
-    const CHAVE_PIX_SIMULADA = "11.222.333/0001-44"; // Chave PIX simulada (pode ser CPF/CNPJ ou aleatória)
+    // Estrutura de dados para armazenar os jogos.
+    let jogosSelecionados = [
+        [], // Jogo 1
+        [], // Jogo 2
+        [], // Jogo 3
+        [], // Jogo 4
+        []  // Jogo 5
+    ];
+    let jogoAtivoIndex = 0; // Começa no Jogo 1 (índice 0)
 
-    // 1. Geração dos Números (1 a 60)
-    for (let i = 1; i <= 60; i++) {
-        const numeroBtn = document.createElement('div');
-        numeroBtn.className = 'numero-btn';
-        numeroBtn.textContent = i.toString().padStart(2, '0'); // Formata para '01', '02', etc.
-        numeroBtn.dataset.numero = i;
-        
-        numeroBtn.addEventListener('click', () => toggleNumero(numeroBtn, i));
-        containerJogos.appendChild(numeroBtn);
+    // 1. Funções de Controle de Estado e Visualização
+
+    function getJogoAtivo() {
+        return displaysJogos[jogoAtivoIndex];
     }
 
-    // 2. Lógica de Seleção
-    function toggleNumero(btn, numero) {
-        if (numerosSelecionados.has(numero)) {
-            // Desselecionar
-            numerosSelecionados.delete(numero);
-            btn.classList.remove('selecionado');
-        } else if (numerosSelecionados.size < maxNumeros) {
-            // Selecionar
-            numerosSelecionados.add(numero);
-            btn.classList.add('selecionado');
+    function atualizarDisplayJogo(jogoIndex) {
+        const jogo = jogosSelecionados[jogoIndex];
+        const display = displaysJogos[jogoIndex];
+        const numerosDisplay = display.querySelector('.numeros-selecionados-display');
+
+        const totalSelecionado = jogo.length;
+        // Ordena e exibe os números, com reticências se houver muitos
+        const numerosFormatados = jogo.sort((a, b) => a - b).map(n => n.toString().padStart(2, '0')).join(', ');
+        numerosDisplay.textContent = totalSelecionado > 0 ? numerosFormatados : '...';
+
+        // Atualiza status visual (Cinza, Amarelo, Verde)
+        if (totalSelecionado === 0) {
+            display.dataset.status = 'vazio';
+        } else if (totalSelecionado < MAX_NUMEROS_JOGO) {
+            display.dataset.status = 'incompleto';
         } else {
-            alert(`Você só pode selecionar no máximo ${maxNumeros} números (5 jogos de 6 números).`);
+            display.dataset.status = 'completo';
+        }
+
+        // Habilita o botão Próximo Jogo se o jogo atual estiver completo
+        if (jogoIndex === jogoAtivoIndex) {
+            proximoJogoBtn.disabled = (totalSelecionado < MAX_NUMEROS_JOGO);
+        }
+    }
+
+    function atualizarEstadoVisualGeral() {
+        // 1. Atualiza a visibilidade do botão Confirmar Aposta
+        const todosCompletos = jogosSelecionados.every(jogo => jogo.length === MAX_NUMEROS_JOGO);
+        if (todosCompletos) {
+            confirmarApostaBtn.style.display = 'inline-block';
+            proximoJogoBtn.style.display = 'none'; // Esconde 'Próximo' se todos estiverem completos
+        } else {
+            confirmarApostaBtn.style.display = 'none';
+            // Garante que o botão 'Próximo Jogo' só apareça se não for o último jogo
+            if (jogoAtivoIndex < TOTAL_JOGOS - 1) {
+                 proximoJogoBtn.style.display = 'inline-block';
+            } else {
+                 // Se for o Jogo 5 e estiver incompleto, ele não deve ter 'Próximo'
+                 proximoJogoBtn.style.display = 'none'; 
+            }
+        }
+
+        // 2. Atualiza os botões de números para refletir a seleção do JOGO ATIVO
+        document.querySelectorAll('.numero-btn').forEach(btn => {
+            const num = parseInt(btn.dataset.numero);
+            
+            // Remove a classe 'selecionado' de todos
+            btn.classList.remove('selecionado');
+            
+            // Verifica se o número está no JOGO ATIVO
+            if (jogosSelecionados[jogoAtivoIndex].includes(num)) {
+                btn.classList.add('selecionado');
+            }
+        });
+        
+        // 3. Garante que todos os displays reflitam seus estados
+        displaysJogos.forEach((_, index) => atualizarDisplayJogo(index));
+    }
+
+    // 2. Lógica de Seleção de Números
+    
+    function toggleNumero(btn, numero) {
+        const jogoAtual = jogosSelecionados[jogoAtivoIndex];
+        const num = parseInt(numero);
+
+        if (jogoAtual.includes(num)) {
+            // Desselecionar
+            jogosSelecionados[jogoAtivoIndex] = jogoAtual.filter(n => n !== num);
+        } else if (jogoAtual.length < MAX_NUMEROS_JOGO) {
+            // Selecionar
+            jogoAtual.push(num);
+        } else {
+            alert(`O Jogo ${jogoAtivoIndex + 1} já está completo com ${MAX_NUMEROS_JOGO} números.`);
+            return;
+        }
+
+        atualizarEstadoVisualGeral();
+    }
+
+    // 3. Navegação entre Jogos
+    
+    function selecionarJogo(index) {
+        if (index < 0 || index >= TOTAL_JOGOS) return;
+
+        // Desativa a seleção visual do jogo anterior
+        if (getJogoAtivo()) {
+            getJogoAtivo().classList.remove('ativo');
         }
         
-        atualizarContador();
-        verificarBotaoFinalizar();
+        jogoAtivoIndex = index;
+        
+        // Ativa a seleção visual do novo jogo
+        getJogoAtivo().classList.add('ativo');
+
+        // Atualiza o estado visual para mostrar os números selecionados do novo jogo
+        atualizarEstadoVisualGeral();
     }
 
-    // 3. Atualização do Contador
-    function atualizarContador() {
-        contadorNumeros.textContent = `${numerosSelecionados.size}/${maxNumeros}`;
+    function avancarProximoJogo() {
+        // Só avança se não for o último jogo
+        if (jogoAtivoIndex < TOTAL_JOGOS - 1) {
+            selecionarJogo(jogoAtivoIndex + 1);
+        }
     }
 
-    // 4. Verificação do Botão de Finalizar
-    function verificarBotaoFinalizar() {
-        // Habilita o botão APENAS se 30 números estiverem selecionados.
-        finalizarApostaBtn.disabled = numerosSelecionados.size !== maxNumeros;
-    }
+    // 4. Implementação dos Botões de Controle
 
-    // 5. Botão Limpar Seleção
-    limparSelecaoBtn.addEventListener('click', () => {
-        if (confirm('Tem certeza que deseja limpar todos os números selecionados?')) {
-            // Limpa o Set
-            numerosSelecionados.clear();
-            // Remove a classe 'selecionado' de todos os botões
-            document.querySelectorAll('.numero-btn').forEach(btn => {
-                btn.classList.remove('selecionado');
-            });
-            atualizarContador();
-            verificarBotaoFinalizar();
+    // A. Limpar Jogo
+    limparJogoBtn.addEventListener('click', () => {
+        if (confirm(`Tem certeza que deseja limpar os números do Jogo ${jogoAtivoIndex + 1}?`)) {
+            jogosSelecionados[jogoAtivoIndex] = [];
+            atualizarEstadoVisualGeral();
         }
     });
 
-    // 6. Configuração da Chave PIX
-    chavePixDisplay.textContent = CHAVE_PIX_SIMULADA;
+    // B. Preencher Aleatoriamente
+    preencherAleatoriamenteBtn.addEventListener('click', () => {
+        const jogoAtual = jogosSelecionados[jogoAtivoIndex];
+        
+        // Lógica de preenchimento aleatório (mantida para evitar repetições no bolão)
+        const numerosJaSelecionadosNoBolao = new Set();
+        jogosSelecionados.forEach((jogo) => {
+            jogo.forEach(num => numerosJaSelecionadosNoBolao.add(num));
+        });
+        
+        // Números disponíveis (1 a 60, excluindo os já usados)
+        const numerosDisponiveis = [];
+        for (let i = 1; i <= 60; i++) {
+             // Apenas exclui se o número JÁ ESTIVER em outro jogo
+             let isUsedInOtherGame = false;
+             for(let i=0; i < TOTAL_JOGOS; i++){
+                if(i !== jogoAtivoIndex && jogosSelecionados[i].includes(i)){
+                    isUsedInOtherGame = true;
+                    break;
+                }
+             }
+
+            if (!isUsedInOtherGame) {
+                numerosDisponiveis.push(i);
+            }
+        }
+        
+        // Remove do pool de disponíveis os números já selecionados neste jogo ativo
+        let poolParaSorteio = numerosDisponiveis.filter(n => !jogoAtual.includes(n));
+        
+        let numerosParaCompletar = MAX_NUMEROS_JOGO - jogoAtual.length;
+        
+        if (numerosParaCompletar > poolParaSorteio.length) {
+            alert("Não há números suficientes disponíveis para completar este jogo aleatoriamente sem repetir números já escolhidos em outros jogos.");
+            return;
+        }
+
+        // Seleciona aleatoriamente e adiciona ao jogo atual
+        for (let i = 0; i < numerosParaCompletar; i++) {
+            const randomIndex = Math.floor(Math.random() * poolParaSorteio.length);
+            const numeroSorteado = poolParaSorteio.splice(randomIndex, 1)[0]; // Remove da lista de disponíveis
+            jogoAtual.push(numeroSorteado);
+        }
+
+        atualizarEstadoVisualGeral();
+    });
+
+    // C. Próximo Jogo
+    proximoJogoBtn.addEventListener('click', avancarProximoJogo);
+
+    // D. Seleção via Display
+    displaysJogos.forEach((display, index) => {
+        display.addEventListener('click', () => selecionarJogo(index));
+    });
+
+    // 5. Inicialização e Geração dos Botões
     
-    // 7. Botão Copiar PIX
+    // Geração dos botões de 1 a 60
+    for (let i = 1; i <= 60; i++) {
+        const numeroBtn = document.createElement('div');
+        numeroBtn.className = 'numero-btn';
+        numeroBtn.textContent = i.toString().padStart(2, '0');
+        numeroBtn.dataset.numero = i;
+        numeroBtn.addEventListener('click', () => toggleNumero(numeroBtn, i));
+        containerJogos.appendChild(numeroBtn);
+    }
+    
+    // Configuração da Chave PIX (Atualizada)
+    chavePixDisplay.textContent = CHAVE_PIX_SIMULADA;
     copiarPixBtn.addEventListener('click', () => {
         navigator.clipboard.writeText(CHAVE_PIX_SIMULADA).then(() => {
             copiarPixBtn.textContent = 'Copiado!';
             setTimeout(() => {
                 copiarPixBtn.textContent = 'Copiar Chave';
             }, 1500);
-        }).catch(err => {
-            console.error('Erro ao copiar PIX:', err);
-            alert('Erro ao copiar a chave PIX. Tente copiar manualmente: ' + CHAVE_PIX_SIMULADA);
         });
     });
 
-    // 8. Botão Finalizar Aposta (Armazenamento temporário e Redirecionamento)
-    finalizarApostaBtn.addEventListener('click', (e) => {
+    // 6. Botão Confirmar Aposta
+    confirmarApostaBtn.addEventListener('click', (e) => {
         const nome = document.getElementById('nome').value;
         const telefone = document.getElementById('telefone').value;
 
         if (!nome || !telefone) {
-            alert('Por favor, preencha seu Nome e Telefone antes de avançar.');
+            alert('Por favor, preencha seu Nome e Telefone antes de confirmar.');
             return;
         }
 
-        // Converte o Set de números para um Array ordenado e formatado
-        const jogosSelecionadosArray = Array.from(numerosSelecionados).sort((a, b) => a - b);
-
-        // Estrutura os 5 jogos de 6 números (simplesmente agrupando em blocos de 6)
-        const jogosFormatados = [];
-        for (let i = 0; i < jogosSelecionadosArray.length; i += 6) {
-            jogosFormatados.push(jogosSelecionadosArray.slice(i, i + 6));
+        const todosCompletos = jogosSelecionados.every(jogo => jogo.length === MAX_NUMEROS_JOGO);
+        if (!todosCompletos) {
+            alert('Você deve preencher todos os 5 jogos com 6 números antes de confirmar.');
+            return;
         }
         
-        // Dados a serem passados para a página de confirmação
+        // Estrutura os dados
         const dadosAposta = {
             nome: nome,
             telefone: telefone,
             chavePix: CHAVE_PIX_SIMULADA,
-            jogos: jogosFormatados
+            jogos: jogosSelecionados
         };
 
-        // Salva os dados no LocalStorage para serem acessados na página de Confirmação
+        // Salva os dados no LocalStorage
         localStorage.setItem('dadosBolao', JSON.stringify(dadosAposta));
 
         // Redireciona para a página de Confirmação
         window.location.href = 'confirmacao.html';
     });
-    
-    // Inicialização
-    atualizarContador();
+
+    // Inicialização da interface
+    selecionarJogo(0); // Garante que o Jogo 1 está ativo e a tela correta.
 });
